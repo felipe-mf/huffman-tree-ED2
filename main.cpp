@@ -1,25 +1,23 @@
 #include <bits/stdc++.h>
-#include "../domain/tree/Huffman.cpp"
+#include "src/Huffman.cpp"
 //#include "../../header/Huffman.hpp"
 
 using namespace std;
 
 int main (){
-    Huffman huffman = Huffman("aaaabbbccd");
+    HT::Huffman huffman = HT::Huffman("aaaabbbccd");
 
-    huffman.encode();
+    huffman.encoder();
     string encodedtext = huffman.getEncodedText();
     cout << encodedtext << endl;
 
-    huffman.ShowTable();
+    huffman.showTable();
 
     string original = huffman.getDecodedText();
     cout << original << endl;
 
     return 0;
 }
-
-
 /*
 RECADO
 as funções básicas do funcionamento estão prontas
