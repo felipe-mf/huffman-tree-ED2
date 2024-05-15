@@ -67,3 +67,13 @@ void HT::Huffman::showTable() const noexcept{
         std::wcout << c.first << L" = " << c.second << std::endl;
     std::wcout << L"----------------\n";
 }
+
+
+void HT::Huffman::deleteRoot(Node *root){
+    if(!root) return;
+    deleteRoot(root->getLeftNode());
+    deleteRoot(root->getRightNode());
+    delete root;
+}
+
+HT::Huffman::~Huffman(){deleteRoot(root);} // Método destrutor usando a funcao de deletar como parametro

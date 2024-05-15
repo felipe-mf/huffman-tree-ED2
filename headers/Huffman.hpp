@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 
+
 namespace HT{
 
 class Huffman{   
@@ -32,6 +33,11 @@ public:
     /// Só para ver se a tabela está correta (a princípio está)
     void showTable() const noexcept;
 
+    /// Método destrutor
+    ~Huffman();
+    
+
+
 
 private:
     HT::Node *root;
@@ -39,6 +45,10 @@ private:
     std::map<wchar_t, int> charFrequencies;
     std::map<wchar_t, std::wstring> huffmanCodes;
     std::map<std::wstring, wchar_t> huffmanDecodes;
+
+
+    /// Deleta um no
+    void deleteRoot(Node *root);
 
     /// Preenche o map com a frequencia de cada caracter
     void fillCharFrequenciesMap() noexcept;
@@ -55,4 +65,7 @@ private:
 
 };
 
+
+
 }
+
