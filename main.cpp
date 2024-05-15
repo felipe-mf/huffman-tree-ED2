@@ -5,16 +5,16 @@
 using namespace std;
 
 int main (){
-    HT::Huffman huffman = HT::Huffman("aaaabbbccd");
+    HT::Huffman huffman = HT::Huffman(L"aaaabbbccd");
 
     huffman.encoder();
-    string encodedtext = huffman.getEncodedText();
-    cout << encodedtext << endl;
+    wstring encodedtext = huffman.getEncodedText();
+    wcout << "string em bits: " << encodedtext << endl;
 
     huffman.showTable();
 
-    string original = huffman.getDecodedText();
-    cout << original << endl;
+    wstring original = huffman.getDecodedText();
+    wcout << "string original: " << original << endl;
 
     return 0;
 }

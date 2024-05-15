@@ -8,15 +8,15 @@ namespace HT{
 
 class Node{
 public:
-    Node(char _char, int _frequency, Node* _left, Node* _right): character(_char), frequency(_frequency), leftNode(_left), rightNode(_right){}
+    Node(wchar_t _char, int _frequency, Node* _left, Node* _right): character(_char), frequency(_frequency), leftNode(_left), rightNode(_right){}
 
     [[nodiscard]] int getFrequency() const noexcept { return frequency; } /// Inline
     [[nodiscard]] Node *getLeftNode() const noexcept { return leftNode; } /// Inline
     [[nodiscard]] Node *getRightNode() const noexcept { return rightNode; } /// Inline
-    [[nodiscard]] char getCharacter() const noexcept { return character; } /// Inline
+    [[nodiscard]] wchar_t getCharacter() const noexcept { return character; } /// Inline
 
 private:
-    char character;
+    wchar_t character;
     int frequency;
     Node *leftNode, *rightNode;
 };

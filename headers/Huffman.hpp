@@ -8,6 +8,7 @@
 #include <map>
 #include <queue>
 #include <iostream>
+#include <fstream>
 
 namespace HT{
 
@@ -15,7 +16,7 @@ class Huffman{
 
 public:
     /// construtor já inicializando o texto para codificar (o construtor já chama o método para achar a frequencia de cada caracter)
-    Huffman(std::string _text): text(_text){
+    Huffman(std::wstring _text): text(_text){
         fillCharFrequenciesMap();
     }
 
@@ -23,26 +24,27 @@ public:
     void encoder();
 
     /// retorna os bits já codificados do texto de entrada
-    [[nodiscard]] std::string getEncodedText() noexcept;
+    [[nodiscard]] std::wstring getEncodedText() noexcept;
 
     /// retorna o texto decodificado 
-    [[nodiscard]] std::string getDecodedText() noexcept;
+    [[nodiscard]] std::wstring getDecodedText() noexcept;
 
     /// Só para ver se a tabela está correta (a princípio está)
     void showTable() const noexcept;
 
+
 private:
     HT::Node *root;
-    std::string text;
-    std::map<char, int> charFrequencies;
-    std::map<char, std::string> huffmanCodes;
-    std::map<std::string, char> huffmanDecodes;
+    std::wstring text;
+    std::map<wchar_t, int> charFrequencies;
+    std::map<wchar_t, std::wstring> huffmanCodes;
+    std::map<std::wstring, wchar_t> huffmanDecodes;
 
     /// Preenche o map com a frequencia de cada caracter
     void fillCharFrequenciesMap() noexcept;
 
     /// Percorre a arvore e gera o codigo para cada caracter
-    void generateHuffmanCodes(HT::Node *node, std::string code);
+    void generateHuffmanCodes(HT::Node *node, std::wstring code);
 
     /// estrutura para comparar na priority queue
     struct cmp{
