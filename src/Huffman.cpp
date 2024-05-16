@@ -2,78 +2,78 @@
     @authors: Jean Bonadeo Dal Santo
               Felipe M. Fagundes
 */
-#include "../headers/Huffman.hpp"
+#include "../headers/huffman.hpp"
 
 
-void HT::Huffman::fillCharFrequenciesMap() noexcept{
+void HT::huffman::fill_char_frequencies_map() noexcept{
     for(const wchar_t &c: text)
-        charFrequencies[c]++;
+        char_frequencies[c]++;
 }
 
-void HT::Huffman::generateHuffmanCodes(HT::Node *node, std::wstring code){
+void HT::huffman::generate_huffman_codes(HT::node *node, std::wstring code){
     if(!node) return;
-    if(charFrequencies.count(node->getCharacter()) && !node->getLeftNode() && !node->getRightNode()){
-        huffmanCodes[node->getCharacter()]=code;
-        huffmanDecodes[code]=node->getCharacter(); 
+    if(char_frequencies.count(node->get_character()) && !node->get_leftnode() && !node->get_rightnode()){
+        huffman_codes[node->get_character()]=code;
+        huffman_decodes[code]=node->get_character(); 
     }
-    Huffman::generateHuffmanCodes(node->getLeftNode(), code+ L"0");
-    Huffman::generateHuffmanCodes(node->getRightNode(), code+ L"1");
+    huffman::generate_huffman_codes(node->get_leftnode(), code+ L"0");
+    huffman::generate_huffman_codes(node->get_rightnode(), code+ L"1");
 }
 
-void HT::Huffman::encoder(){
-    std::priority_queue<HT::Node*, std::vector<HT::Node*>, Huffman::cmp> fila;
-    for(const auto &c: charFrequencies){
-        auto nodo = new HT::Node(c.first, c.second, nullptr, nullptr);
+void HT::huffman::encoder(){
+    std::priority_queue<HT::node*, std::vector<HT::node*>, huffman::cmp> fila;
+    for(const auto &c: char_frequencies){
+        auto nodo = new HT::node(c.first, c.second, nullptr, nullptr);
         fila.push(nodo);
     }
     while(fila.size() > 1){
-        HT::Node *left = fila.top();
+        HT::node *left = fila.top();
         fila.pop();
-        HT::Node *right = fila.top();
+        HT::node *right = fila.top();
         fila.pop();
-        int soma = left->getFrequency() + right->getFrequency();
-        auto nodo = new HT::Node('\n', soma, left, right);
+        int soma = left->get_frequency() + right->get_frequency();
+        auto nodo = new HT::node('\n', soma, left, right);
         fila.push(nodo);
     }
     root = fila.top();
     fila.pop();
-    Huffman::generateHuffmanCodes(root, L"");
+    huffman::generate_huffman_codes(root, L"");
 }
 
-[[nodiscard]] std::wstring HT::Huffman::getEncodedText() noexcept{
+[[nodiscard]] std::wstring HT::huffman::get_encoded_text() noexcept{
     std::wstring ans= L"";
     for(const wchar_t &c:text)
-        ans+=huffmanCodes[c];
+        ans+=huffman_codes[c];
     return ans;
 }
 
-[[nodiscard]]std::wstring HT::Huffman::getDecodedText() noexcept{
+[[nodiscard]]std::wstring HT::huffman::get_decoded_text() noexcept{
     std::wstring ans= L"";
     std::wstring code= L"";
-    std::wstring encoded = getEncodedText();
+    std::wstring encoded = get_encoded_text();
     for(const wchar_t &c: encoded){
         code+=c;
-        if(huffmanDecodes.count(code)){
-            ans+=huffmanDecodes[code];
+        if(huffman_decodes.count(code)){
+            ans+=huffman_decodes[code];
             code= L"";
         }
     }
     return ans;
 }
 
-void HT::Huffman::showTable() const noexcept{
+void HT::huffman::show_table() const noexcept{
     std::wcout << L"-----TABELA-----\n";
-    for(const auto &c: huffmanCodes)
+    for(const auto &c: huffman_codes)
         std::wcout << c.first << L" = " << c.second << std::endl;
     std::wcout << L"----------------\n";
 }
 
 
-void HT::Huffman::deleteRoot(Node *root){
+void HT::huffman::delete_root(node *root){
     if(!root) return;
-    deleteRoot(root->getLeftNode());
-    deleteRoot(root->getRightNode());
+    delete_root(root->get_leftnode());
+    delete_root(root->get_rightnode());
     delete root;
 }
 
-HT::Huffman::~Huffman(){deleteRoot(root);} // Método destrutor usando a funcao de deletar como parametro
+HT::huffman::~huffman(){delete_root(root);} // Método destrutor usando a funcao de deletar como parametro

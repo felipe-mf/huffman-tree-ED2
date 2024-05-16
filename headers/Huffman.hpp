@@ -3,7 +3,7 @@
               Felipe M. Fagundes
 */
 #pragma once
-#include "Node.hpp"
+#include "node.hpp"
 #include <string>
 #include <map>
 #include <queue>
@@ -13,53 +13,53 @@
 
 namespace HT{
 
-class Huffman{   
+class huffman{   
 
 public:
     /// construtor já inicializando o texto para codificar (o construtor já chama o método para achar a frequencia de cada caracter)
-    Huffman(std::wstring _text): text(_text){
-        fillCharFrequenciesMap();
+    huffman(std::wstring _text): text(_text){
+        fill_char_frequencies_map();
     }
 
-    /// Cria a arvore de huffman e chama a função que ira gerar os códigos(generateHuffmanCodes) 
+    /// Cria a arvore de huffman e chama a função que ira gerar os códigos(generatehuffmanCodes) 
     void encoder();
 
     /// retorna os bits já codificados do texto de entrada
-    [[nodiscard]] std::wstring getEncodedText() noexcept;
+    [[nodiscard]] std::wstring get_encoded_text() noexcept;
 
     /// retorna o texto decodificado 
-    [[nodiscard]] std::wstring getDecodedText() noexcept;
+    [[nodiscard]] std::wstring get_decoded_text() noexcept;
 
     /// Só para ver se a tabela está correta (a princípio está)
-    void showTable() const noexcept;
+    void show_table() const noexcept;
 
     /// Método destrutor
-    ~Huffman();
+    ~huffman();
     
 
 
 
 private:
-    HT::Node *root;
+    HT::node *root;
     std::wstring text;
-    std::map<wchar_t, int> charFrequencies;
-    std::map<wchar_t, std::wstring> huffmanCodes;
-    std::map<std::wstring, wchar_t> huffmanDecodes;
+    std::map<wchar_t, int> char_frequencies;
+    std::map<wchar_t, std::wstring> huffman_codes;
+    std::map<std::wstring, wchar_t> huffman_decodes;
 
 
     /// Deleta um no
-    void deleteRoot(Node *root);
+    void delete_root(node *root);
 
     /// Preenche o map com a frequencia de cada caracter
-    void fillCharFrequenciesMap() noexcept;
+    void fill_char_frequencies_map() noexcept;
 
     /// Percorre a arvore e gera o codigo para cada caracter
-    void generateHuffmanCodes(HT::Node *node, std::wstring code);
+    void generate_huffman_codes(HT::node *node, std::wstring code);
 
     /// estrutura para comparar na priority queue
     struct cmp{
-        inline bool operator()(HT::Node* a, HT::Node* b) const noexcept{
-            return a->getFrequency() > b->getFrequency();
+        inline bool operator()(HT::node* a, HT::node* b) const noexcept{
+            return a->get_frequency() > b->get_frequency();
         }
     };   
 

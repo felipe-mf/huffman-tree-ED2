@@ -1,18 +1,18 @@
 #include <bits/stdc++.h>
-#include "src/Huffman.cpp"
+#include "src/huffman.cpp"
 //#include "../../header/Huffman.hpp"
 
 using namespace std;
 
 int main (){
-    HT::Huffman huffman = HT::Huffman(L"aaaabbbccd"); /// O prefixo L precisa ser usado pois trata-se de uma wstring.
+    HT::huffman huffman = HT::huffman(L"aaaabbbccd"); /// O prefixo L precisa ser usado pois trata-se de uma wstring.
 
     huffman.encoder();
-    wstring encodedtext = huffman.getEncodedText();
+    wstring encodedtext = huffman.get_encoded_text();
     //wcout << "string em bits: " << encodedtext << endl;
 
     
-    wstring original = huffman.getDecodedText();
+    wstring original = huffman.get_decoded_text();
     
 
     int op;
@@ -39,7 +39,7 @@ int main (){
             wcout << "--------------------------\n";
             break;
         case 3:
-            huffman.showTable();
+            huffman.show_table();
             break;
         case 4:
             wcout << "Encerrando o programa...\n";

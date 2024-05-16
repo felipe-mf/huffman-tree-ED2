@@ -6,19 +6,19 @@
 
 namespace HT{
 
-class Node{
+class node{
 public:
-    Node(wchar_t _char, int _frequency, Node* _left, Node* _right): character(_char), frequency(_frequency), leftNode(_left), rightNode(_right){}
+    node(wchar_t _char, int _frequency, node* _left, node* _right): character(_char), frequency(_frequency), leftnode(_left), rightnode(_right){}
 
-    [[nodiscard]] int getFrequency() const noexcept { return frequency; } /// Inline
-    [[nodiscard]] Node *getLeftNode() const noexcept { return leftNode; } /// Inline
-    [[nodiscard]] Node *getRightNode() const noexcept { return rightNode; } /// Inline
-    [[nodiscard]] wchar_t getCharacter() const noexcept { return character; } /// Inline
+    [[nodiscard]] int get_frequency() const noexcept { return frequency; } /// Inline
+    [[nodiscard]] node *get_leftnode() const noexcept { return leftnode; } /// Inline
+    [[nodiscard]] node *get_rightnode() const noexcept { return rightnode; } /// Inline
+    [[nodiscard]] wchar_t get_character() const noexcept { return character; } /// Inline
 
 private:
     wchar_t character;
     int frequency;
-    Node *leftNode, *rightNode;
+    node *leftnode, *rightnode;
 };
 
 }
