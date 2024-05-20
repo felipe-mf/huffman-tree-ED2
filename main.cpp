@@ -22,7 +22,8 @@ int main (){
         wcout << "1 - Visualizar a string original\n";
         wcout << "2 - Visualizar a string em bits\n";
         wcout << "3 - Visualizar tabela de bits\n";
-        wcout << "4 - Encerra o programa\n";
+        wcout << "4 - Visualizar arvore .dot\n";
+        wcout << "5 - Encerra o programa\n";
         wcout << "Digite sua opção abaixo: \n";
         wcin >> op;
 
@@ -42,6 +43,9 @@ int main (){
             huffman.show_table();
             break;
         case 4:
+            huffman.show_tree();
+            break;
+        case 5:
             wcout << "Encerrando o programa...\n";
             exit(0);
         default:

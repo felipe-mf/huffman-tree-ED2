@@ -35,6 +35,8 @@ public:
 
     /// Método destrutor
     ~huffman();
+
+    void show_tree(); // Funcao para mostrar a arvore 
     
 
 
@@ -61,7 +63,8 @@ private:
         inline bool operator()(HT::node* a, HT::node* b) const noexcept{
             return a->get_frequency() > b->get_frequency();
         }
-    };   
+    };
+      
 
 };
 

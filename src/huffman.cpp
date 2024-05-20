@@ -76,4 +76,21 @@ void HT::huffman::delete_root(node *root){
     delete root;
 }
 
+
+void HT::huffman::show_tree(){
+    std::wofstream dot("/tmp/show.dot");
+    dot << "digraph{\n";
+    dot << "\t edge [label=0];\n";
+    dot << "\t graph [ranksep=0];\n";
+    for(const auto &n : huffman_codes){
+        dot << "\t\""
+        << n.first
+        << " [shape=record, label=\"{{" << n.first << "|" << char_frequencies[n.first] << "}|" << n.second << "}\"];\n";
+    }
+    dot << "}\n";
+    dot.close();
+    system("dot /tmp/show.dot -Tx11");
+    
+}
+
 HT::huffman::~huffman(){delete_root(root);} // Método destrutor usando a funcao de deletar como parametro
