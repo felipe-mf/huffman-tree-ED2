@@ -6,6 +6,7 @@
 #include "node.hpp"
 #include <string>
 #include <map>
+#include <unordered_map>
 #include <queue>
 #include <iostream>
 #include <fstream>
@@ -33,10 +34,14 @@ public:
     /// Só para ver se a tabela está correta (a princípio está)
     void show_table() const noexcept;
 
+    std::wstring traverse_tree(node *node, std::wstring code, std::wstring ans);
+
+    void links(HT::node *node, std::wofstream &dot);
+  
     /// Método destrutor
     ~huffman();
 
-    void show_tree(); // Funcao para mostrar a arvore 
+    void show_tree(); /// Funcao para mostrar a arvore 
     
 
 
