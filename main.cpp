@@ -1,18 +1,39 @@
 #include <bits/stdc++.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "src/huffman.cpp"
 //#include "../../header/Huffman.hpp"
 
 using namespace std;
 
 int main (){
-    HT::huffman huffman = HT::huffman(L"aaaabbbccd"); /// O prefixo L precisa ser usado pois trata-se de uma wstring.
+
+    wifstream input("input.txt");
+    wchar_t input_char;
+    wstring input_string;
+
+    if(!input){
+        cout << "Falha ao abrir o arquivo de entrada!\n";
+        exit(1);
+    }
+    
+    input.imbue(locale("C.utf8")); // Configurando o locale para UTF-8 (NAO SEI SE ESTA CERTO!)
+
+    while (input.get(input_char)) {
+        input_string += towlower(input_char);
+    }
+    
+    HT::huffman huffman = HT::huffman(input_string); /// O prefixo L precisa ser usado pois trata-se de uma wstring.
 
     huffman.encoder();
     wstring encodedtext = huffman.get_encoded_text();
     //wcout << "string em bits: " << encodedtext << endl;
-
     
     wstring original = huffman.get_decoded_text();
+
+    double encoded_size = huffman.get_encoded_text().size()/8.0; // Tamanho em bytes apos compressao
+    double pre_size = input_string.size() * sizeof(wchar_t); // Tamanho antes da compressao
+    double absolute = fabs(((encoded_size - pre_size) / pre_size) * 100);
     
 
     int op;
@@ -23,7 +44,8 @@ int main (){
         wcout << "2 - Visualizar a string em bits\n";
         wcout << "3 - Visualizar tabela de bits\n";
         wcout << "4 - Visualizar arvore .dot\n";
-        wcout << "5 - Encerra o programa\n";
+        wcout << "5 - Visualizar diferença entre bytes dos arquivos\n";
+        wcout << "6 - Encerra o programa\n";
         wcout << "Digite sua opção abaixo: \n";
         wcin >> op;
 
@@ -46,6 +68,13 @@ int main (){
             huffman.show_tree();
             break;
         case 5:
+            wcout << "--------------------------\n";
+            wcout << "Tamanho antes da codificacao: " << pre_size << " bytes\n";
+            wcout << "Tamanho decodificado: " << encoded_size << " bytes\n";
+            wcout << "Diferenca absoluta " << fixed << setprecision(2)<< absolute << "%\n";
+            wcout << "--------------------------\n";
+            break;
+        case 6:
             wcout << "Encerrando o programa...\n";
             exit(0);
         default:
