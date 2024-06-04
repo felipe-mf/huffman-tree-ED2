@@ -20,10 +20,12 @@ public:
     /// construtor já inicializando o texto para codificar (o construtor já chama o método para achar a frequencia de cada caracter)
     huffman(std::wstring _text): text(_text){
         fill_char_frequencies_map();
+        encoder();
     }
 
-    /// Cria a arvore de huffman e chama a função que ira gerar os códigos(generatehuffmanCodes) 
-    void encoder();
+    /// Método destrutor
+    ~huffman();
+
 
     /// retorna os bits já codificados do texto de entrada
     [[nodiscard]] std::wstring get_encoded_text() noexcept;
@@ -34,14 +36,8 @@ public:
     /// Só para ver se a tabela está correta (a princípio está)
     void show_table() const noexcept;
 
-    std::wstring traverse_tree(node *node, std::wstring code, std::wstring ans);
-
-    void links(HT::node *node, std::wofstream &dot);
-  
-    /// Método destrutor
-    ~huffman();
-
-    void show_tree(); /// Funcao para mostrar a arvore 
+    //Função para criar e mostrar o arquivo .dot da árvore de Huffman
+    void show_tree() noexcept;
     
 
 
@@ -60,8 +56,17 @@ private:
     /// Preenche o map com a frequencia de cada caracter
     void fill_char_frequencies_map() noexcept;
 
+    /// Cria a arvore de huffman e chama a função que ira gerar os códigos(generatehuffmanCodes) 
+    void encoder();
+
     /// Percorre a arvore e gera o codigo para cada caracter
     void generate_huffman_codes(HT::node *node, std::wstring code);
+
+    ///Função usada na show_tree para criar os nodos redondos do dot
+    void traverse_tree(node *node, std::wstring code, std::wofstream &dot) noexcept;
+
+    ///Função usada na show_tree para linkar todos os nodos do dot
+    void links(HT::node *node, std::wofstream &dot, std::wstring dir) noexcept;
 
     /// estrutura para comparar na priority queue
     struct cmp{

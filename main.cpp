@@ -6,18 +6,20 @@
 
 using namespace std;
 
-int main (){
-
-    wifstream input("input.txt");
+int main (){ 
+    wifstream input("clarissa.txt");
     wchar_t input_char;
     wstring input_string;
+
+    auto pt = locale("");
+    locale::global(pt);
+    input.imbue(pt);
 
     if(!input){
         cout << "Falha ao abrir o arquivo de entrada!\n";
         exit(1);
     }
     
-    input.imbue(locale("C.utf8")); // Configurando o locale para UTF-8 (NAO SEI SE ESTA CERTO!)
 
     while (input.get(input_char)) {
         input_string += towlower(input_char);
@@ -25,7 +27,6 @@ int main (){
     
     HT::huffman huffman = HT::huffman(input_string); /// O prefixo L precisa ser usado pois trata-se de uma wstring.
 
-    huffman.encoder();
     wstring encodedtext = huffman.get_encoded_text();
     //wcout << "string em bits: " << encodedtext << endl;
     

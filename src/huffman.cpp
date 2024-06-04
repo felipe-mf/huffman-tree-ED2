@@ -76,28 +76,29 @@ void HT::huffman::delete_root(node *root){
     delete root;
 }
 
-std::wstring HT::huffman::traverse_tree(HT::node *node, std::wstring code, std::wstring ans){
-    if(!node) return ans;
+void HT::huffman::traverse_tree(HT::node *node, std::wstring code, std::wofstream &dot) noexcept{
+    if(!node) return;
     if(node->get_leftnode() || node->get_rightnode()){
-        std::wstring aux=L"";
-        if(code == L"") aux += L"root";
-        aux += code;
-        aux+= L"[label=";
-        aux+= std::to_wstring(node->get_frequency());
-        aux+= L"]\n";
-        ans += aux;
+        std::wstring ans=L"";
+        ans+=L"\"";
+        if(code == L"") ans += L"root";
+        ans += L"" + code + L"\"";
+        ans+= L"[label=";
+        ans+= std::to_wstring(node->get_frequency());
+        ans+= L"]\n";
+        dot << ans;
     }
-    ans = traverse_tree(node->get_leftnode(), code+ L"0", ans);
-    ans = traverse_tree(node->get_rightnode(), code+ L"1", ans);
-    return ans;
+    traverse_tree(node->get_leftnode(), code+ L"0", dot);
+    traverse_tree(node->get_rightnode(), code+ L"1", dot);
+    return;
 }
 
-void HT::huffman::links(HT::node *node, std::wofstream &dot){
+void HT::huffman::links(HT::node *node, std::wofstream &dot, std::wstring dir)noexcept{
     if(!node) return;
     static std::unordered_map<std::wstring,int>feitos;
     
-    links(node->get_leftnode(), dot);
-    links(node->get_rightnode(), dot);
+    links(node->get_leftnode(), dot, L"0");
+    links(node->get_rightnode(), dot, L"1");
     if(huffman_codes.count(node->get_character())){
     std::wstring entrada = huffman_codes[node->get_character()];
     std::wstring saida(1,(node->get_character()));
@@ -108,37 +109,49 @@ void HT::huffman::links(HT::node *node, std::wofstream &dot){
         if(saida == L"" && node->get_leftnode()){
             saida = huffman_codes[node->get_leftnode()->get_character()];
             saida.erase(--saida.end());
+            dir = L"0";
         } else if(saida == L"" && node->get_rightnode()){
             saida = huffman_codes[node->get_rightnode()->get_character()];
             saida.erase(--saida.end());
+            dir = L"1";
         }
-        std::wstring linha = entrada + L" -> " + saida + L"\n";
-        if(!feitos.count(linha))
+        std::wstring aux(1,node->get_character());
+        if(saida == L" ") saida = L"SPACE";
+        else if(iscntrl(node->get_character())) saida = L"ENDL";
+        else if(saida == L"\"") saida = L"2ASPAS";
+        else if(saida == L"\'") saida = L"ASPAS";
+        //else if(ispunct(node->get_character()) && saida == aux) 
+        //else saida = L"\"" + saida + L"\""; 
+        std::wstring linha = L"" + entrada + L" -> \"" + saida + L"\"[label=" + dir + L"]\n";
+        std::wstring linha_feita = L"" + entrada + L" -> \"" + saida + L"\"";
+        if(!feitos.count(linha_feita))
             dot << linha;
-        feitos[linha]++;
+        feitos[linha_feita]++;
         saida=entrada;
     }
     }
 }
 
-
-
-void HT::huffman::show_tree(){
-    std::wofstream dot("/tmp/show.dot");
+void HT::huffman::show_tree()noexcept{
+    std::wofstream dot("show.dot");
     dot << "digraph{\n";
     dot << "\tedge [label=0];\n";
     dot << "\tgraph [ranksep=0];\n";
     for(const auto &n : huffman_codes){
-        dot << "\t"
-        << n.first
-        << " [shape=record, label=\"{{" << n.first << "|" << char_frequencies[n.first] << "}|" << n.second << "}\"];\n";
+        std::wstring c(1,n.first);
+        if(c == L" ") c = L"SPACE";
+        else if(iscntrl(n.first)) c = L"ENDL";
+        else if(c == L"\"") c = L"2ASPAS";
+        else if(c == L"\'") c = L"ASPAS";
+        dot << "\t\""
+        << c
+        << "\" [shape=record, label=\"{{" << c << "|" << char_frequencies[n.first] << "}|" << n.second << "}\"];\n";
     }
-    std::wstring ans = traverse_tree(root, L"", L"");
-    dot << ans;
-    links(root, dot);
+    traverse_tree(root, L"", dot);
+    links(root, dot, L"0");
     dot << "}\n";
     dot.close();
-    system("dot /tmp/show.dot -Tx11");
+    system("dot show.dot -Tx11");
 
     }
 
