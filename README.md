@@ -1,1 +1,1 @@
-Repositório para o trabalho de Estrutura de Dados 2 implementando algoritmo de árvore de Huffman
+Repositório para o trabalho de Estrutura de Dados 2 em conjunto com a disciplina de Programação Orientada a Objetos, implementando algoritmo de árvore de Huffman para compactação de arquivos de texto.
