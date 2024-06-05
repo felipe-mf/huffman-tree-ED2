@@ -63,10 +63,11 @@ private:
     void generate_huffman_codes(HT::node *node, std::wstring code);
 
     ///Função usada na show_tree para criar os nodos redondos do dot
-    void traverse_tree(node *node, std::wstring code, std::wofstream &dot) noexcept;
+    void traverse_tree(node *node, std::wstring code, std::wofstream &dot, std::unordered_map<std::wstring,std::wstring>&traverses, std::wstring dir) noexcept;
 
     ///Função usada na show_tree para linkar todos os nodos do dot
-    void links(HT::node *node, std::wofstream &dot, std::wstring dir) noexcept;
+    void links(HT::node *node, std::wofstream &dot, std::wstring dir, std::unordered_map<std::wstring,std::wstring>&traverses, std::unordered_map<std::wstring,int>&feitos) noexcept;
+
 
     /// estrutura para comparar na priority queue
     struct cmp{
