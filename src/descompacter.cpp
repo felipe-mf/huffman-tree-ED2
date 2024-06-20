@@ -8,6 +8,11 @@
     void HT::descompacter::descompactar(){
         system("tar -xf arq_zipado.tar -C /tmp codificacao.txt arq_compactado.txt");
         std::wifstream codigos("/tmp/codificacao.txt");
+        if(!codigos){
+            std::wcout << "Falha ao abrir meta dados\n"
+                       << L"é necessario arquivo arq_zipado.tar na pasta de execução do programa\n";
+            exit(1);
+        }
         
         wchar_t cc;
         std::wstring bin;
@@ -23,9 +28,10 @@
 
 
        std::ifstream entrada("/tmp/arq_compactado.txt", std::ios::binary);
-        if (!entrada.is_open()) {
-            std::wcout << L"Erro ao abrir o arquivo de entrada.\n";
-            return;
+        if(!entrada){
+            std::wcout << "Falha ao abrir arquivo compactado\n"
+                       << L"é necessario arquivo arq_zipado.tar na pasta de execução do programa\n";
+            exit(1);
         }
 
         char byte;

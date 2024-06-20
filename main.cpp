@@ -11,42 +11,41 @@
 #include <iomanip>
 #include <iostream>
 
-int main(){
-    std::string filename = "clarissa.txt"; 
+auto pt = std::locale("");
+void compactar(){
+    std::wcout << L"=========== Compactador huffman ===========\n"
+               << L"Digite o nome do arquivo que deseja compactar: ";
+    std::wstring fn; 
+    std::wcin >> fn;
+    std::string filename(fn.begin(),fn.end());
     std::wifstream input(filename);
+    if(!input){
+        std::wcout << "Falha ao abrir o arquivo de entrada!\n";
+        exit(1);
+    }
+    input.imbue(pt);
+    std::wcout << L"\nIniciando processo...\n";
+
     wchar_t input_char;
     std::wstring input_string;
 
-    auto pt = std::locale("");
-    std::locale::global(pt);
-    input.imbue(pt);
-
-    if(!input){
-        std::cout << "Falha ao abrir o arquivo de entrada!\n";
-        exit(1);
-    }
-    
     while(input.get(input_char)) 
         input_string += input_char;
-    
+    std::wcout << L"Criando árvore de Huffman...\n";
     HT::huffman huffman = HT::huffman(input_string);
 
-    std::wstring encodedtext = huffman.get_encoded_text();
-    
     std::wstring original = huffman.get_decoded_text();
-
+    std::wstring encodedtext = huffman.get_encoded_text();
 
     HT::file_status file = HT::file_status(filename, huffman.get_encoded_text());
-    int op;
-
-    HT::compacter comp = HT::compacter(encodedtext, huffman);
+    std::wcout << L"Iniciando processo de compactação...\n";
+    HT::compacter comp = HT::compacter(huffman.get_encoded_text() , huffman);
     comp.compactador();
-    HT::descompacter desc = HT::descompacter();
-    desc.descompactar();
 
-
+    int op;
+    std::wcout << L"Arquivo compactado com sucesso!\n\n";
     while(true){
-        std::wcout << L"Bem vindo ao projeto de Codificação de Huffman!\n"
+        std::wcout << L"====== Escolha uma opção ======\n"
                    << L"1 - Visualizar a string original\n"
                    << L"2 - Visualizar a string em bits\n"
                    << L"3 - Visualizar tabela de bits\n"
@@ -91,6 +90,36 @@ int main(){
             break;
         }
     }
+}
+
+void descompactar(){
+    std::wcout << L"Iniciando processo de descompactação...\n";
+    HT::descompacter desc = HT::descompacter();
+    desc.descompactar();
+    std::wcout << L"Arquivo descompactado com sucesso\n";
+}
+
+
+
+int main(){
+    std::locale::global(pt);
+
+    std::wcout << L"Bem vindo ao projeto de Codificação de Huffman!\n\n"
+               << L"Escolha a opção abaixo para continuar\n"
+               << L"1 - Compactar arquivo (.txt)\n"
+               << L"2 - Descompactar arquivo\n\n"
+               << L"Digite uma opção válida: ";
+    wchar_t op;
+    std::wcin >> op;
+    while(op != '1' && op != '2'){
+        std::wcout << L"\nDigite uma opção válida: ";
+        std::wcin >> op;
+    }
+
+    if(op == '1')
+        compactar();
+    else if(op == '2')
+        descompactar();
 
     return 0;
-}
+} 
