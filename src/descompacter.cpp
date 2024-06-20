@@ -48,7 +48,7 @@
     return bin_str;
     }
 
-    void HT::descompacter::save(int tam){
+    void HT::descompacter::save(int tam) noexcept{
         std::wofstream saida("arq_descompactado.txt");
         std::wstring bin=L"";
         int count=0;
