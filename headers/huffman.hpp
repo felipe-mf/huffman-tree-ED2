@@ -23,6 +23,8 @@ public:
         encoder();
     }
 
+    huffman() {}
+
     /// Método destrutor
     virtual ~huffman();
 
