@@ -63,8 +63,13 @@ void HT::huffman::encoder(){
 
 void HT::huffman::show_table() const noexcept{
     std::wcout << L"-----TABELA-----\n";
-    for(const auto &c: huffman_codes)
-        std::wcout << c.first << L" = " << c.second << std::endl;
+    for(const auto &c: huffman_codes){
+        std::wstring cc(1,c.first);
+        if(cc == L" ") cc = L"SPACE";
+        else if(iscntrl(cc[0])) cc = L"ENDL";
+        std::wcout << cc << L" = " << c.second << std::endl;
+    }
+        
     std::wcout << L"----------------\n";
 }
 
