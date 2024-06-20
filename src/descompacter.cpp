@@ -28,7 +28,6 @@
             return;
         }
 
-        std::wstring binarioCompleto;
         char byte;
         while(entrada.get(byte))
             binario += byte_binary_to_string(byte);
@@ -40,7 +39,7 @@
 
     }
 
-    std::wstring HT::descompacter::byte_binary_to_string(char byte) {
+    [[nodiscard]] std::wstring HT::descompacter::byte_binary_to_string(char byte) const noexcept{
         std::wstring bin_str;
         for (int i = 7; i >= 0; --i) 
             bin_str += (byte & (1 << i)) ? L'1' : L'0';

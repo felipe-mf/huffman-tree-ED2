@@ -46,7 +46,7 @@ public:
         return huffman_codes;
     }
 
-    int get_size_tree(){
+    [[nodiscard]] int get_size_tree() const noexcept{
         return root->get_frequency();
     }
 

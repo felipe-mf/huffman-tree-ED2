@@ -25,7 +25,7 @@ private:
     std::wstring binario;
     std::unordered_map<std::wstring, wchar_t> map_cod;
     
-    std::wstring byte_binary_to_string(char byte);
+    [[nodiscard]] std::wstring byte_binary_to_string(char byte) const noexcept;
 
     void save(int tam) noexcept;
 
