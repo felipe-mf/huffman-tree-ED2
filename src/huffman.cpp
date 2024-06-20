@@ -4,7 +4,7 @@
 */
 #include "../headers/huffman.hpp"
 
-
+// Pode ser inline
 void HT::huffman::fill_char_frequencies_map() noexcept{
     for(const wchar_t &c: text)
         char_frequencies[c]++;
@@ -82,10 +82,7 @@ void HT::huffman::traverse_tree(HT::node *node, std::wstring code, std::wofstrea
         std::wstring ans=L"";
         ans+=L"\"";
         if(code == L"") ans += L"root";
-        ans += L"" + code + L"\"";
-        ans+= L"[label=";
-        ans+= std::to_wstring(node->get_frequency());
-        ans+= L"]\n";
+        ans += L"" + code + L"\"" + L"[label=" + std::to_wstring(node->get_frequency()) + L"]\n";
         dot << ans;
         traverses[code] = dir;
     }
@@ -96,7 +93,6 @@ void HT::huffman::traverse_tree(HT::node *node, std::wstring code, std::wofstrea
 
 void HT::huffman::links(HT::node *node, std::wofstream &dot, std::wstring dir, std::unordered_map<std::wstring, std::wstring>&traverses, std::unordered_map<std::wstring,int>&feitos)noexcept{
     if(!node) return;
-    //static std::unordered_map<std::wstring,int>feitos;
     
     links(node->get_leftnode(), dot, L"0", traverses, feitos);
     links(node->get_rightnode(), dot, L"1", traverses, feitos);
@@ -107,22 +103,11 @@ void HT::huffman::links(HT::node *node, std::wofstream &dot, std::wstring dir, s
     while(entrada.size()>0 && entrada!=L"root"){
         entrada.erase(--entrada.end());
         if(entrada == L"") entrada = L"root";
-        // if(saida == L"" && node->get_leftnode()){
-        //     saida = huffman_codes[node->get_leftnode()->get_character()];
-        //     saida.erase(--saida.end());
-        //     dir = L"0";
-        // } else if(saida == L"" && node->get_rightnode()){
-        //     saida = huffman_codes[node->get_rightnode()->get_character()];
-        //     saida.erase(--saida.end());
-        //     dir = L"1";
-        // }
-        //std::wstring aux(1,node->get_character());
         if(saida == L" ") saida = L"SPACE";
         else if(iscntrl(saida[0])) saida = L"ENDL";
         else if(saida == L"\"") saida = L"2ASPAS";
         else if(saida == L"\'") saida = L"ASPAS";
-        //else if(ispunct(node->get_character()) && saida == aux) 
-        //else saida = L"\"" + saida + L"\"";
+
         if(traverses.count(saida)) dir = traverses[saida];
         std::wstring linha = L"" + entrada + L" -> \"" + saida + L"\"[label=" + dir + L"]\n";
         std::wstring linha_feita = L" -> \"" + saida + L"\"";
@@ -147,9 +132,13 @@ void HT::huffman::show_tree()noexcept{
         else if(iscntrl(n.first)) c = L"ENDL";
         else if(c == L"\"") c = L"2ASPAS";
         else if(c == L"\'") c = L"ASPAS";
+        std::wstring c_label = c;
+        if(c_label == L"{") c_label = L"\\{";
+        if(c_label == L">") c_label = L"\\>";
+
         dot << "\t\""
         << c
-        << "\" [shape=record, label=\"{{" << c << "|" << char_frequencies[n.first] << "}|" << n.second << "}\"];\n";
+        << "\" [shape=record, label=\"{{" << c_label << "|" << char_frequencies[n.first] << "}|" << n.second << "}\"];\n";
     }
     std::unordered_map<std::wstring, std::wstring> traverses;
     std::unordered_map<std::wstring,int>feitos;
@@ -162,5 +151,4 @@ void HT::huffman::show_tree()noexcept{
     }
 
 
-
-    HT::huffman::~huffman(){delete_root(root);} // Método destrutor usando a funcao de deletar
+    HT::huffman::~huffman(){ delete_root(root); } // Método destrutor usando a funcao de deletar

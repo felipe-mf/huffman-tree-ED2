@@ -8,7 +8,7 @@ namespace HT{
 
 class node{
 public:
-    node(wchar_t _char, int _frequency, node* _left, node* _right): character(_char), frequency(_frequency), leftnode(_left), rightnode(_right){}
+    node(wchar_t _char, int _frequency, node* _left, node* _right) noexcept : character(_char), frequency(_frequency), leftnode(_left), rightnode(_right){}
 
     [[nodiscard]] int get_frequency() const noexcept { return frequency; } /// Inline
     [[nodiscard]] node *get_leftnode() const noexcept { return leftnode; } /// Inline

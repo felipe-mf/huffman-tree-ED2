@@ -18,13 +18,13 @@ class huffman{
 
 public:
     /// construtor já inicializando o texto para codificar (o construtor já chama o método para achar a frequencia de cada caracter)
-    huffman(std::wstring _text): text(_text){
+    huffman(std::wstring _text) noexcept : text(_text){
         fill_char_frequencies_map();
         encoder();
     }
 
     /// Método destrutor
-    ~huffman();
+    virtual ~huffman();
 
 
     /// retorna os bits já codificados do texto de entrada
@@ -38,7 +38,16 @@ public:
 
     //Função para criar e mostrar o arquivo .dot da árvore de Huffman
     void show_tree() noexcept;
-    
+
+
+    [[nodiscard]] std::map<wchar_t, std::wstring> get_huffman_codes() const noexcept{
+        return huffman_codes;
+    }
+
+    int get_size_tree(){
+        return root->get_frequency();
+    }
+
 
 
 

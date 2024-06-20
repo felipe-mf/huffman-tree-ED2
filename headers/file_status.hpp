@@ -1,3 +1,7 @@
+/**
+    @authors: Jean Bonadeo Dal Santo
+              Felipe M. Fagundes
+*/
 #include <iostream>
 #pragma once
 
